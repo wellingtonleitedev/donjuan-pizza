@@ -10,57 +10,49 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconSimple from "react-native-vector-icons/SimpleLineIcons";
 import styles from "./styles";
-import gigante from "../../assets/Tamanhos/tamanho-gg.png";
-import grande from "../../assets/Tamanhos/tamanho-g.png";
-import media from "../../assets/Tamanhos/tamanho-m.png";
-import pequena from "../../assets/Tamanhos/tamanho-p.png";
+import calabresa from "../../assets/Pizzas/2.png";
+import quatroq from "../../assets/Pizzas/6.png";
+import soda from "../../assets/coca.png";
 import Header from "../../components/Header";
 
-class SizeSelect extends Component {
+class ShoppingCart extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     data: [
       {
         id: 1,
-        image: gigante,
-        size: "Gigante",
-        price: "R$ 76,00"
-      },
-      {
-        id: 2,
-        image: grande,
-        size: "Grande",
-        price: "R$ 59,00"
-      },
-      {
-        id: 3,
-        image: media,
-        size: "Média",
+        image: calabresa,
+        product: "Pizza Calabresa",
+        description: "Tamanho: Média",
         price: "R$ 42,00"
       },
       {
-        id: 4,
-        image: pequena,
-        size: "Pequena",
+        id: 2,
+        image: quatroq,
+        product: "Pizza Quatro Queijos",
+        description: "Tamanho: Pequena",
         price: "R$ 29,00"
+      },
+      {
+        id: 3,
+        image: soda,
+        product: "Coca cola",
+        description: "Lata 300ML",
+        price: "R$ 6,00"
       }
     ]
   };
 
-  sizeSelected = index => {
-    console.tron.log(index);
-    this.props.navigation.navigate("ShoppingCart");
-  };
-
   renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={index => this.sizeSelected(index)}
-      key={item.id}
-      style={styles.flatlistContainer}
-    >
+    <TouchableOpacity key={item.id} style={styles.flatlistContainer}>
       <View style={styles.flatlist}>
         <Image style={styles.flatlistImage} source={item.image} />
         <View style={styles.information}>
-          <Text style={styles.title}>{item.size}</Text>
+          <Text style={styles.title}>{item.product}</Text>
+          <Text style={styles.description}>{item.description}</Text>
           <Text style={styles.price}>{item.price}</Text>
         </View>
       </View>
@@ -97,7 +89,6 @@ class SizeSelect extends Component {
               renderItem={this.renderItem}
               data={data}
               keyExtractor={item => item.id}
-              numColumns={2}
             />
           </ScrollView>
         </View>
@@ -106,4 +97,4 @@ class SizeSelect extends Component {
   }
 }
 
-export default SizeSelect;
+export default ShoppingCart;
