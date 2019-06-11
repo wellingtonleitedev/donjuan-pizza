@@ -13,6 +13,12 @@ export default StyleSheet.create({
     marginVertical: metrics.baseMargin + 10,
     paddingHorizontal: metrics.basePadding,
   },
+  headerTitle: {
+    flexDirection: 'row',
+  },
+  icon: {
+    marginRight: 10,
+  },
   text: {
     color: colors.white,
     fontFamily: general.fontBold,

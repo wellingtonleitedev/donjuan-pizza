@@ -74,15 +74,10 @@ class TasteSelect extends Component {
         <Header
           control={(
             <View style={styles.controls}>
-              <Icon file="MaterialCommunityIcons" name="restore-clock" size={24} color="#fff" />
-              <Text style={styles.text}>Pizzaria Don Juan</Text>
-              <IconSimple
-                style={styles.baged}
-                file="SimpleLineIcons"
-                name="handbag"
-                size={15}
-                color="#fff"
-              />
+              <View style={styles.headerTitle}>
+                <Icon style={styles.icon} name="chevron-left" size={24} color="#fff" />
+                <Text style={styles.text}>Selecione um tipo</Text>
+              </View>
             </View>
 )}
         />
