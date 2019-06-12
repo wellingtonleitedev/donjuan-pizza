@@ -10,6 +10,15 @@ export default StyleSheet.create({
     position: 'absolute',
     resizeMode: 'cover',
   },
+  errorText: {
+    backgroundColor: colors.danger,
+    color: colors.white,
+    fontSize: metrics.baseFont,
+    marginBottom: metrics.baseMargin,
+    paddingHorizontal: metrics.basePadding,
+    paddingVertical: 10,
+    textAlign: 'center',
+  },
   form: {
     backgroundColor: colors.blackTransparent,
     padding: metrics.basePadding,

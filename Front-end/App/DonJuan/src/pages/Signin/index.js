@@ -6,11 +6,42 @@ import styles from './styles';
 import backgroundImage from '../../assets/fundo.png';
 import logo from '../../assets/logo.png';
 import PrimaryButton from '../../components/PrimaryButton';
+import api from '../../services/api';
 
 class Signin extends Component {
   state = {
     inputEmail: '',
     inputPass: '',
+    error: '',
+  };
+
+  handleSignin = async () => {
+    const { inputEmail, inputPass } = this.state;
+
+    const {
+      navigation: { navigate },
+    } = this.props;
+
+    if (!inputEmail || !inputPass) {
+      this.setState({
+        error: 'Você precisa preencher todos os campos!',
+      });
+    } else {
+      try {
+        const response = await api.post('signin', {
+          email: inputEmail,
+          password: inputPass,
+        });
+
+        console.tron.log(response);
+        navigate('TypeSelect');
+      } catch (err) {
+        console.log(err);
+        this.setState({
+          error: 'Não foi possível acessar, verifique as credenciais',
+        });
+      }
+    }
   };
 
   render() {
@@ -18,7 +49,7 @@ class Signin extends Component {
       navigation: { navigate },
     } = this.props;
 
-    const { inputEmail, inputPass } = this.state;
+    const { inputEmail, inputPass, error } = this.state;
 
     return (
       <View style={styles.container}>
@@ -27,6 +58,7 @@ class Signin extends Component {
           <View style={styles.logoView}>
             <Image style={styles.logo} source={logo} />
           </View>
+          {!!error && <Text style={styles.errorText}>{error}</Text>}
           <TextInput
             autoCapitalize="none"
             style={styles.input}
@@ -42,7 +74,7 @@ class Signin extends Component {
             value={inputPass}
             onChangeText={text => this.setState({ inputPass: text })}
           />
-          <PrimaryButton onPress={() => navigate('TypeSelect')} style={styles.button}>
+          <PrimaryButton onPress={this.handleSignin} style={styles.button}>
             <Text style={styles.text}>Entrar</Text>
           </PrimaryButton>
           <Text style={styles.text} onPress={() => navigate('Signup')}>

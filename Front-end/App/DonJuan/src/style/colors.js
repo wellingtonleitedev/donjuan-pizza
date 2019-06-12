@@ -7,7 +7,7 @@ export default {
   secondary: '#e5293e',
 
   success: '#9dca83',
-  danger: '#e37a7a',
+  danger: '#dc3545',
 
   transparent: 'transparent',
   blackTransparent: 'rgba(0, 0, 0, 0.3)',
