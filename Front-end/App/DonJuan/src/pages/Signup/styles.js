@@ -9,6 +9,7 @@ export default StyleSheet.create({
     flex: 1,
     position: 'absolute',
     resizeMode: 'cover',
+    width: metrics.screenWidth,
   },
   errorText: {
     backgroundColor: colors.danger,

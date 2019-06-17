@@ -63,7 +63,6 @@ class Signup extends Component {
           </View>
           {!!error && <Text style={styles.errorText}>{error}</Text>}
           <TextInput
-            autoCapitalize="none"
             style={styles.input}
             placeholder="Nome completo"
             value={inputName}
