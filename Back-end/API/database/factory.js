@@ -16,6 +16,6 @@ const Factory = use('Factory')
 
 Factory.blueprint('App/Models/Type', faker => {
   return {
-    name: faker.name('Pizzas')
+    name: faker.name()
   }
 })

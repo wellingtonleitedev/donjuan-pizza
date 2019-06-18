@@ -9,3 +9,6 @@ Route.get('/', ({ request, response }) => {
 
 Route.post('signup', 'UserController.store')
 Route.post('signin', 'SessionController.store')
+
+Route.get('files/:file', 'FileController.show')
+Route.get('types', 'TypeController.index')
