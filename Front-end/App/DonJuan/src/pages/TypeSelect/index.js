@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import pizzaImage from '../../assets/pizzas.png';
 import pasteImage from '../../assets/calzones.png';
@@ -11,13 +12,9 @@ import calzoneImage from '../../assets/massas.png';
 import sodaImage from '../../assets/bebidas.png';
 import drinkImage from '../../assets/alcoolicas.png';
 import Header from '../../components/Header';
+import api from '../../services/api';
 
 class TypeSelect extends Component {
-  constructor(props) {
-    super(props);
-    this.typeSelected = this.typeSelected.bind(this);
-  }
-
   state = {
     data: [
       {
@@ -58,8 +55,11 @@ class TypeSelect extends Component {
     ],
   };
 
+  componentDidMount() {
+    this.getTypes();
+  }
+
   typeSelected = (index) => {
-    console.tron.log(index);
     this.props.navigation.navigate('TasteSelect');
   };
 
@@ -83,6 +83,15 @@ class TypeSelect extends Component {
     </TouchableOpacity>
   );
 
+  getTypes = async () => {
+    try {
+      const response = await api.get('/types');
+      console.log('RESPOSTA', response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   render() {
     const { data } = this.state;
     return (
@@ -104,7 +113,11 @@ class TypeSelect extends Component {
         />
         <View style={styles.content}>
           <ScrollView>
-            <FlatList renderItem={this.renderItem} data={data} keyExtractor={item => item.id} />
+            <FlatList
+              renderItem={this.renderItem}
+              data={data}
+              keyExtractor={item => item.id.toString()}
+            />
           </ScrollView>
         </View>
       </View>

@@ -5,6 +5,7 @@ class TypeController {
   async index ({ request, response }) {
     const types = await Type.all()
 
+    console.log(request)
     return types
   }
 }

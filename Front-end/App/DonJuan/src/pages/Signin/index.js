@@ -7,6 +7,7 @@ import backgroundImage from '../../assets/fundo.png';
 import logo from '../../assets/logo.png';
 import PrimaryButton from '../../components/PrimaryButton';
 import api from '../../services/api';
+import { isAuthenticated, login } from '../../services/auth';
 
 class Signin extends Component {
   state = {
@@ -14,6 +15,12 @@ class Signin extends Component {
     inputPass: '',
     error: '',
   };
+
+  async componentDidMount() {
+    if (await isAuthenticated()) {
+      this.props.navigation.navigate('TypeSelect');
+    }
+  }
 
   handleSignin = async () => {
     const { inputEmail, inputPass } = this.state;
@@ -32,7 +39,7 @@ class Signin extends Component {
           email: inputEmail,
           password: inputPass,
         });
-
+        login(response.data.token);
         console.tron.log(response);
         navigate('TypeSelect');
       } catch (err) {

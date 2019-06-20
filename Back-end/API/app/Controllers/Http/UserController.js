@@ -10,6 +10,14 @@ class UserController {
 
     return user
   }
+
+  async show ({ params }) {
+    const { token } = params
+
+    const user = await User.findByOrFail('token', token)
+
+    return user
+  }
 }
 
 module.exports = UserController
