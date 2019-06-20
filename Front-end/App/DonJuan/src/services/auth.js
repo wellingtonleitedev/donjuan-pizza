@@ -12,6 +12,16 @@ export const isAuthenticated = async () => {
   }
 };
 
-export const getToken = () => AsyncStorage.getItem(TOKEN_KEY);
-export const login = token => AsyncStorage.setItem(TOKEN_KEY, token);
-export const logout = () => AsyncStorage.removeItem(TOKEN_KEY);
+export const getToken = async () => {
+  const token = await AsyncStorage.getItem(TOKEN_KEY);
+
+  return token;
+};
+
+export const login = async (token) => {
+  await AsyncStorage.setItem(TOKEN_KEY, token);
+};
+
+export const logout = async () => {
+  await AsyncStorage.removeItem(TOKEN_KEY);
+};

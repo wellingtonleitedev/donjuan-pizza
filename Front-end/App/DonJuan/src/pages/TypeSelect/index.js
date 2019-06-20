@@ -16,43 +16,7 @@ import api from '../../services/api';
 
 class TypeSelect extends Component {
   state = {
-    data: [
-      {
-        id: 1,
-        image: pizzaImage,
-        type: 'Pizzas',
-        description: 'Mais de 50 sabores de pizza em até 4 tamanhos diferentes de fome.',
-        time: '30 mins',
-      },
-      {
-        id: 2,
-        image: pasteImage,
-        type: 'Massas',
-        description: '10 tipos de massas com diferentes molhos para te satisfazer.',
-        time: '25 mins',
-      },
-      {
-        id: 3,
-        image: calzoneImage,
-        type: 'Calzones',
-        description: 'Calzones super recheados com mais de 50 sabores diferentes.',
-        time: '15 mins',
-      },
-      {
-        id: 4,
-        image: sodaImage,
-        type: 'Bebidas não-alcóolicas',
-        description: 'Refrigerantes, sucos, chá gelado, energéticos e água.',
-        time: '5 mins',
-      },
-      {
-        id: 5,
-        image: drinkImage,
-        type: 'Bebidas alcóolicas',
-        description: 'Cervejas artesanais, vinhos e destilados.',
-        time: '5 mins',
-      },
-    ],
+    data: [],
   };
 
   componentDidMount() {
@@ -70,7 +34,7 @@ class TypeSelect extends Component {
       onPress={() => this.typeSelected(item.id)}
     >
       <View style={styles.flatlist}>
-        <Image style={styles.flatlistImage} source={item.image} />
+        <Image style={styles.flatlistImage} source={{ uri: item.image }} />
         <View style={styles.information}>
           <Text style={styles.title}>{item.type}</Text>
           <Text style={styles.description}>{item.description}</Text>
@@ -85,8 +49,18 @@ class TypeSelect extends Component {
 
   getTypes = async () => {
     try {
-      const response = await api.get('/types');
-      console.log('RESPOSTA', response.data);
+      const types = await api.get('/types');
+      types.data.map(async (type) => {
+        const file = await api.get(`/files/${type.image}`);
+        console.log(file);
+        type.image = file.data;
+      });
+
+      this.setState({
+        data: [...types.data],
+      });
+
+      console.log(this.state.data);
     } catch (err) {
       console.log(err);
     }

@@ -40,7 +40,6 @@ class Signin extends Component {
           password: inputPass,
         });
         login(response.data.token);
-        console.tron.log(response);
         navigate('TypeSelect');
       } catch (err) {
         console.log(err);
