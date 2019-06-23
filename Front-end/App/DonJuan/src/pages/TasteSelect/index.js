@@ -12,57 +12,42 @@ import marguerita from '../../assets/Pizzas/4.png';
 import legumes from '../../assets/Pizzas/5.png';
 import quatroq from '../../assets/Pizzas/6.png';
 import Header from '../../components/Header';
+import api from '../../services/api'
 
 class TasteSelect extends Component {
   state = {
-    data: [
-      {
-        id: 1,
-        image: portuguesa,
-        taste: 'Portuguesa',
-      },
-      {
-        id: 2,
-        image: calabresa,
-        taste: 'Calabresa',
-      },
-      {
-        id: 3,
-        image: frango,
-        taste: 'Frango Frito',
-      },
-      {
-        id: 4,
-        image: marguerita,
-        taste: 'Marguerita',
-      },
-      {
-        id: 5,
-        image: legumes,
-        taste: 'Legumes',
-      },
-      {
-        id: 6,
-        image: quatroq,
-        taste: 'Quatro Queijos',
-      },
-    ],
+    data: [],
   };
 
+  componentDidMount() {
+    this.getTastes()
+  }
+
+  getTastes = async () => {
+    const type = this.props.navigation.getParam('type')
+    try {
+      const response = await api.get(`/tastes/${type}`)
+      this.setState({
+        data: [...response.data]
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   tasteSelected = (index) => {
-    console.tron.log(index);
-    this.props.navigation.navigate('SizeSelect');
+    this.props.navigation.navigate('SizeSelect', { taste: index });
   };
 
   renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={index => this.tasteSelected(index)}
+      onPress={() => this.tasteSelected(item.id)}
       key={item.id}
       style={styles.flatlistContainer}
     >
       <View style={styles.flatlist}>
         <Image style={styles.flatlistImage} source={item.image} />
-        <Text style={styles.title}>{item.taste}</Text>
+        <Text style={styles.title}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -79,14 +64,14 @@ class TasteSelect extends Component {
                 <Text style={styles.text}>Selecione um tipo</Text>
               </View>
             </View>
-)}
+          )}
         />
         <View style={styles.content}>
           <ScrollView>
             <FlatList
               renderItem={this.renderItem}
               data={data}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
               numColumns={2}
             />
           </ScrollView>

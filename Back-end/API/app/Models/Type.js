@@ -4,8 +4,8 @@
 const Model = use('Model')
 
 class Type extends Model {
-  boot () {
-    super.boot()
+  tastes() {
+    return this.hasMany('App/Models/Taste')
   }
 }
 

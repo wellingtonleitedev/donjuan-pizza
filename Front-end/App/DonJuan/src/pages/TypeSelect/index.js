@@ -23,8 +23,25 @@ class TypeSelect extends Component {
     this.getTypes();
   }
 
+  getTypes = async () => {
+    try {
+      const types = await api.get('/types');
+      types.data.map(async (type) => {
+        const file = await api.get(`/files/${type.image}`);
+        type.image = file.config.url;
+      });
+
+      this.setState({
+        data: [...types.data],
+      });
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   typeSelected = (index) => {
-    this.props.navigation.navigate('TasteSelect');
+    this.props.navigation.navigate('TasteSelect', { type: index });
   };
 
   renderItem = ({ item }) => (
@@ -36,7 +53,7 @@ class TypeSelect extends Component {
       <View style={styles.flatlist}>
         <Image style={styles.flatlistImage} source={{ uri: item.image }} />
         <View style={styles.information}>
-          <Text style={styles.title}>{item.type}</Text>
+          <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.description}>{item.description}</Text>
           <View style={styles.timeView}>
             <Icon name="clock-fast" size={18} color="#706e7b" />
@@ -46,25 +63,6 @@ class TypeSelect extends Component {
       </View>
     </TouchableOpacity>
   );
-
-  getTypes = async () => {
-    try {
-      const types = await api.get('/types');
-      types.data.map(async (type) => {
-        const file = await api.get(`/files/${type.image}`);
-        console.log(file);
-        type.image = file.data;
-      });
-
-      this.setState({
-        data: [...types.data],
-      });
-
-      console.log(this.state.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   render() {
     const { data } = this.state;
@@ -83,7 +81,7 @@ class TypeSelect extends Component {
                 color="#fff"
               />
             </View>
-)}
+          )}
         />
         <View style={styles.content}>
           <ScrollView>

@@ -6,6 +6,7 @@ import styles from './styles';
 import backgroundImage from '../../assets/fundo.png';
 import logo from '../../assets/logo.png';
 import PrimaryButton from '../../components/PrimaryButton';
+import { connect } from 'redux'
 import api from '../../services/api';
 import { isAuthenticated, login } from '../../services/auth';
 

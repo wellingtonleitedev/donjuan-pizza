@@ -10,45 +10,44 @@ import grande from '../../assets/Tamanhos/tamanho-g.png';
 import media from '../../assets/Tamanhos/tamanho-m.png';
 import pequena from '../../assets/Tamanhos/tamanho-p.png';
 import Header from '../../components/Header';
+import api from '../../services/api'
 
 class SizeSelect extends Component {
   state = {
-    data: [
-      {
-        id: 1,
-        image: gigante,
-        size: 'Gigante',
-        price: 'R$ 76,00',
-      },
-      {
-        id: 2,
-        image: grande,
-        size: 'Grande',
-        price: 'R$ 59,00',
-      },
-      {
-        id: 3,
-        image: media,
-        size: 'Média',
-        price: 'R$ 42,00',
-      },
-      {
-        id: 4,
-        image: pequena,
-        size: 'Pequena',
-        price: 'R$ 29,00',
-      },
-    ],
+    data: [],
   };
 
+  componentDidMount() {
+    this.getSizes()
+  }
+
+  getSizes = async () => {
+    const taste = this.props.navigation.getParam('taste')
+    try {
+      const response = await api.get(`/sizes/${taste}`)
+
+      this.setState({
+        data: [...response.data.sizes]
+      })
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   sizeSelected = (index) => {
-    console.tron.log(index);
+    console.log(index);
+    const { data } = this.state
+
+    const product = data.filter(product => product.id == index)
+    console.log(product)
+
     this.props.navigation.navigate('ShoppingCart');
   };
 
   renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={index => this.sizeSelected(index)}
+      onPress={() => this.sizeSelected(item.id)}
       key={item.id}
       style={styles.flatlistContainer}
     >
@@ -56,7 +55,7 @@ class SizeSelect extends Component {
         <Image style={styles.flatlistImage} source={item.image} />
         <View style={styles.information}>
           <Text style={styles.title}>{item.size}</Text>
-          <Text style={styles.price}>{item.price}</Text>
+          <Text style={styles.price}>{item.pivot.price}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -74,14 +73,14 @@ class SizeSelect extends Component {
                 <Text style={styles.text}>Selecione um tamanho</Text>
               </View>
             </View>
-)}
+          )}
         />
         <View style={styles.content}>
           <ScrollView>
             <FlatList
               renderItem={this.renderItem}
               data={data}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
               numColumns={2}
             />
           </ScrollView>
