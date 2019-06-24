@@ -1,5 +1,5 @@
 import { all, takeLatest, put } from 'redux-saga/effects';
-import * as orderActions from '../actions/order';
+import { Creators as orderActions } from '../ducks/order';
 
 function* order(action) {
   const { data } = action.payload;

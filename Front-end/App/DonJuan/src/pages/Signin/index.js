@@ -8,7 +8,7 @@ import styles from './styles';
 import backgroundImage from '../../assets/fundo.png';
 import logo from '../../assets/logo.png';
 import PrimaryButton from '../../components/PrimaryButton';
-import * as loginActions from '../../store/actions/login';
+import { Creators as loginActions } from '../../store/ducks/login';
 import api from '../../services/api';
 import { isAuthenticated, login } from '../../services/auth';
 

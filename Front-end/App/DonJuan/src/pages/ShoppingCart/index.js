@@ -11,7 +11,6 @@ import quatroq from '../../assets/Pizzas/6.png';
 import soda from '../../assets/coca.png';
 import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
-import order from '../../store/reducers/order';
 
 class ShoppingCart extends Component {
   state = {

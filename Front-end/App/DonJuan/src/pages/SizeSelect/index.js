@@ -5,7 +5,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as orderActions from '../../store/actions/order';
+import { Creators as orderActions } from '../../store/ducks/order';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
