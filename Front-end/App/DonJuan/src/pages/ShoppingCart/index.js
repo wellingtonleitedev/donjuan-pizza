@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import {
-  View, Text, FlatList, Image, ScrollView, TouchableOpacity,
+  View, Text, FlatList, Image, ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
 import styles from './styles';
 import calabresa from '../../assets/Pizzas/2.png';
 import quatroq from '../../assets/Pizzas/6.png';
 import soda from '../../assets/coca.png';
 import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
+import order from '../../store/reducers/order';
 
 class ShoppingCart extends Component {
   state = {
@@ -62,6 +64,7 @@ class ShoppingCart extends Component {
 
   render() {
     const { data } = this.state;
+    console.tron.log('PROPRIEDADE', this.props);
     return (
       <View style={styles.container}>
         <Header
@@ -100,4 +103,8 @@ class ShoppingCart extends Component {
   }
 }
 
-export default ShoppingCart;
+const mapStateToProps = state => ({
+  product: state,
+});
+
+export default connect(mapStateToProps)(ShoppingCart);

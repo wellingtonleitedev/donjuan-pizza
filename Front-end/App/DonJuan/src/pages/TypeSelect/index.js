@@ -6,11 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
-import pizzaImage from '../../assets/pizzas.png';
-import pasteImage from '../../assets/calzones.png';
-import calzoneImage from '../../assets/massas.png';
-import sodaImage from '../../assets/bebidas.png';
-import drinkImage from '../../assets/alcoolicas.png';
 import Header from '../../components/Header';
 import api from '../../services/api';
 
@@ -19,7 +14,7 @@ class TypeSelect extends Component {
     data: [],
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getTypes();
   }
 
@@ -34,7 +29,6 @@ class TypeSelect extends Component {
       this.setState({
         data: [...types.data],
       });
-
     } catch (err) {
       console.log(err);
     }
@@ -81,7 +75,7 @@ class TypeSelect extends Component {
                 color="#fff"
               />
             </View>
-          )}
+)}
         />
         <View style={styles.content}>
           <ScrollView>
