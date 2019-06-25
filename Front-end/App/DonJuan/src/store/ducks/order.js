@@ -25,7 +25,7 @@ export default function order(state = INITIAL_STATE, action) {
     case Types.SUCCESS:
       return { ...state, data: [...state.data, ...action.payload.data], loading: true };
     case Types.FAILURE:
-      return { ...state, loading: true, error: false };
+      return { ...state, loading: true, error: true };
     default:
       return state;
   }
