@@ -16,6 +16,6 @@ const composer = __DEV__
     Reactotron.createEnhancer(),
   )
   : applyMiddleware(...middlewares);
-export const store = createStore(() => rootReducers, composer);
+export const store = createStore(rootReducers, composer);
 
 sagaMiddleware.run(rootSaga);

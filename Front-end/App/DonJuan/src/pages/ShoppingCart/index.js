@@ -63,7 +63,8 @@ class ShoppingCart extends Component {
 
   render() {
     const { data } = this.state;
-    console.tron.log('PROPRIEDADE', this.props);
+    const { orderProducts } = this.props;
+    console.tron.log('PROPRIEDADE', orderProducts);
     return (
       <View style={styles.container}>
         <Header
@@ -103,7 +104,7 @@ class ShoppingCart extends Component {
 }
 
 const mapStateToProps = state => ({
-  product: state,
+  orderProducts: state.order,
 });
 
 export default connect(mapStateToProps)(ShoppingCart);

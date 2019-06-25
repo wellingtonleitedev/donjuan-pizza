@@ -33,7 +33,6 @@ class SizeSelect extends Component {
   };
 
   sizeSelected = (index) => {
-    console.log(index);
     const { data } = this.state;
     const {
       orderRequest,

@@ -13,6 +13,7 @@ export const Types = {
  */
 
 const INITIAL_STATE = {
+  data: [],
   loading: false,
   error: false,
 };
@@ -22,7 +23,7 @@ export default function order(state = INITIAL_STATE, action) {
     case Types.REQUEST:
       return { ...state, loading: true };
     case Types.SUCCESS:
-      return { ...state, ...action.payload.data, loading: true };
+      return { ...state, data: [...state.data, ...action.payload.data], loading: true };
     case Types.FAILURE:
       return { ...state, loading: true, error: false };
     default:
