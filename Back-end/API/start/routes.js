@@ -12,4 +12,5 @@ Route.group(() => {
   Route.get('types', 'TypeController.index')
   Route.get('tastes/:type', 'TasteController.index')
   Route.get('sizes/:taste', 'SizeController.index')
+  Route.post('cart', 'ShoppingCartController.store')
 }).middleware(['auth'])
