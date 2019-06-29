@@ -5,7 +5,10 @@ export const TOKEN_KEY = '@donjuan-token';
 export const isAuthenticated = async () => {
   const token = await AsyncStorage.getItem(TOKEN_KEY);
   try {
-    await api.get(`/user/${token}`);
+    const user = await api.get(`/user/${token}`);
+    if (!user) {
+      return false;
+    }
     return true;
   } catch (err) {
     return false;

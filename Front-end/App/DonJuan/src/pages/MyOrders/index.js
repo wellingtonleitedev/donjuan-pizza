@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
 import {
-  View, Text, FlatList, Image, ScrollView, TouchableOpacity,
+  View, Text, FlatList, ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import { distanceInWordsToNow } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import styles from './styles';
-import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
+import api from '../../services/api';
 
 class ShoppingCart extends Component {
   state = {
-    data: [
-      {
-        id: 1,
-        time: 'Ontem às 17h',
-        price: 'R$ 42,00',
-      },
-      {
-        id: 2,
-        time: 'Há 1 semana',
-        price: 'R$ 142,00',
-      },
-      {
-        id: 3,
-        time: 'Há dois meses',
-        price: 'R$ 78,00',
-      },
-    ],
+    data: [],
+  };
+
+  componentDidMount() {
+    this.getOrders();
+  }
+
+  getOrders = async () => {
+    try {
+      const { data } = await api.get('orders');
+
+      data.map((order) => {
+        order.updated_at = distanceInWordsToNow(order.updated_at, {
+          locale: pt,
+        });
+      });
+
+      this.setState({
+        data: [...data],
+      });
+    } catch (err) {
+      console.tron.log(err);
+    }
   };
 
   closeCart = () => {
@@ -37,12 +44,9 @@ class ShoppingCart extends Component {
     <View key={item.id} style={styles.flatlistContainer}>
       <View style={styles.flatlist}>
         <View style={styles.information}>
-          <Text style={styles.title}>
-Pedido #
-            {item.id}
-          </Text>
-          <Text style={styles.description}>{item.time}</Text>
-          <Text style={styles.price}>{item.price}</Text>
+          <Text style={styles.title}>{`Pedido #${item.id}`}</Text>
+          <Text style={styles.description}>{item.updated_at}</Text>
+          <Text style={styles.price}>{item.overall}</Text>
         </View>
       </View>
     </View>
@@ -50,13 +54,20 @@ Pedido #
 
   render() {
     const { data } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <Header
           control={(
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
-                <Icon style={styles.icon} name="chevron-left" size={24} color="#fff" />
+                <Icon
+                  onPress={() => navigation.pop()}
+                  style={styles.icon}
+                  name="chevron-left"
+                  size={24}
+                  color="#fff"
+                />
                 <Text style={styles.text}>Meus pedidos</Text>
               </View>
             </View>
@@ -64,7 +75,11 @@ Pedido #
         />
         <View style={styles.content}>
           <ScrollView>
-            <FlatList renderItem={this.renderItem} data={data} keyExtractor={item => item.id} />
+            <FlatList
+              renderItem={this.renderItem}
+              data={data}
+              keyExtractor={item => item.id.toString()}
+            />
           </ScrollView>
         </View>
       </View>

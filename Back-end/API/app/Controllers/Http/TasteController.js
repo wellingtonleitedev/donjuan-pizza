@@ -5,7 +5,7 @@ class TasteController {
   async index({ params }) {
     const { type } = params
 
-    const tastes = await Taste.query().where('type_id', type).fetch()
+    const tastes = await Taste.query().where('type_id', type).with('type').fetch()
 
     return tastes
   }

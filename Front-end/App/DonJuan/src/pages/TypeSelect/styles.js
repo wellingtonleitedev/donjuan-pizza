@@ -47,6 +47,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     padding: 15,
   },
+  flatlistImage: {
+    height: 74,
+    width: 74,
+  },
   information: {
     paddingLeft: 10,
     paddingRight: 50,

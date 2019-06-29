@@ -4,17 +4,23 @@
 const Schema = use('Schema')
 
 class TasteSchema extends Schema {
-  up() {
-    this.create('tastes', (table) => {
+  up () {
+    this.create('tastes', table => {
       table.increments()
-      table.integer('type_id').notNullable().references('id').inTable('types').onUpdate('CASCADE').onDelete('CASCADE')
+      table
+        .integer('type_id')
+        .notNullable()
+        .references('id')
+        .inTable('types')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
       table.string('name').notNullable()
       table.string('image').notNullable()
       table.timestamps()
     })
   }
 
-  down() {
+  down () {
     this.drop('tastes')
   }
 }

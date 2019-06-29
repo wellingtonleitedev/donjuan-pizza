@@ -14,32 +14,56 @@
 const Database = use('Database')
 
 class SizeSeeder {
-  async run() {
+  async run () {
     await Database.table('sizes').insert([
       {
-        size: "Pequena"
+        size: 'Pequena',
+        image: 'pequena.png',
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
-        size: "Média"
+        size: 'Média',
+        image: 'media.png',
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
-        size: "Grande"
+        size: 'Grande',
+        image: 'grande.png',
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
-        size: "Gigante"
+        size: 'Gigante',
+        image: 'gigante.png',
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
-        size: "350ml"
+        size: '350ml',
+        image: '350ml.png',
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
-        size: "600ml"
+        size: '600ml',
+        image: '600ml.png',
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
-        size: "1L"
+        size: '1L',
+        image: '1l.png',
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
-        size: "2L"
-      },
+        size: '2L',
+        image: '2l.png',
+        created_at: new Date(),
+        updated_at: new Date()
+      }
     ])
   }
 }

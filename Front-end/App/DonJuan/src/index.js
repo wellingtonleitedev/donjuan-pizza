@@ -4,10 +4,11 @@ import './config/ReactotronConfig';
 import './config/DevToolsConfig';
 import { store } from './store';
 import { Routes } from './routes';
+import { setNavigator } from './services/navigation';
 
 const App = () => (
   <Provider store={store}>
-    <Routes />
+    <Routes ref={setNavigator} />
   </Provider>
 );
 export default App;

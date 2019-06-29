@@ -58,6 +58,8 @@ export default StyleSheet.create({
   },
   flatlistImage: {
     marginBottom: 15,
+    height: 74,
+    width: 74,
   },
   title: {
     color: colors.primary,

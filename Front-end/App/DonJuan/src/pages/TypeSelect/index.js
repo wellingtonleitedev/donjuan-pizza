@@ -21,11 +21,6 @@ class TypeSelect extends Component {
   getTypes = async () => {
     try {
       const types = await api.get('/types');
-      types.data.map(async (type) => {
-        const file = await api.get(`/files/${type.image}`);
-        type.image = file.config.url;
-      });
-
       this.setState({
         data: [...types.data],
       });
@@ -45,7 +40,10 @@ class TypeSelect extends Component {
       onPress={() => this.typeSelected(item.id)}
     >
       <View style={styles.flatlist}>
-        <Image style={styles.flatlistImage} source={{ uri: item.image }} />
+        <Image
+          style={styles.flatlistImage}
+          source={{ uri: `http://10.0.3.2:3333/files/type-${item.image}` }}
+        />
         <View style={styles.information}>
           <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.description}>{item.description}</Text>
@@ -60,14 +58,24 @@ class TypeSelect extends Component {
 
   render() {
     const { data } = this.state;
+    const {
+      navigation: { navigate },
+    } = this.props;
     return (
       <View style={styles.container}>
         <Header
           control={(
             <View style={styles.controls}>
-              <Icon file="MaterialCommunityIcons" name="restore-clock" size={24} color="#fff" />
+              <Icon
+                onPress={() => navigate('MyOrders')}
+                file="MaterialCommunityIcons"
+                name="restore-clock"
+                size={24}
+                color="#fff"
+              />
               <Text style={styles.text}>Pizzaria Don Juan</Text>
               <IconSimple
+                onPress={() => navigate('ShoppingCart')}
                 style={styles.baged}
                 file="SimpleLineIcons"
                 name="handbag"

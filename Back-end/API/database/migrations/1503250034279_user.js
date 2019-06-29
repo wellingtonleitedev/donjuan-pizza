@@ -14,6 +14,7 @@ class UserSchema extends Schema {
         .unique()
       table.string('password', 60).notNullable()
       table.string('token', 255)
+      table.boolean('provider').defaultTo(false)
       table.timestamps()
     })
   }

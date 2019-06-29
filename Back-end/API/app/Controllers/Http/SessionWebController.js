@@ -2,13 +2,17 @@
 
 const User = use('App/Models/User')
 
-class SessionController {
+class SessionWebController {
   async store ({ request, response, auth }) {
     const { email, password } = request.all()
 
     const token = await auth.attempt(email, password)
 
     const user = await User.findByOrFail('email', email)
+
+    if (!user.provider) {
+      return response.status(401).json({ error: true })
+    }
 
     user.token = token.token
 
@@ -18,4 +22,4 @@ class SessionController {
   }
 }
 
-module.exports = SessionController
+module.exports = SessionWebController

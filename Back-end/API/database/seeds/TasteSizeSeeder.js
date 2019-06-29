@@ -14,263 +14,288 @@
 const Database = use('Database')
 
 class TasteSizeSeeder {
-  async run() {
+  async run () {
     await Database.table('taste_sizes').insert([
       {
         taste_id: 1,
         size_id: 1,
-        price: 29
+        price: 29,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 1,
         size_id: 2,
-        price: 42
+        price: 42,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 1,
         size_id: 3,
-        price: 59
+        price: 59,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 1,
         size_id: 4,
-        price: 76
+        price: 76,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 2,
         size_id: 1,
-        price: 29
+        price: 29,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 2,
         size_id: 2,
-        price: 42
+        price: 42,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 2,
         size_id: 3,
-        price: 59
+        price: 59,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 2,
         size_id: 4,
-        price: 76
+        price: 76,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 3,
         size_id: 1,
-        price: 29
+        price: 29,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 3,
         size_id: 2,
-        price: 42
+        price: 42,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 3,
         size_id: 3,
-        price: 59
+        price: 59,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 3,
         size_id: 4,
-        price: 76
+        price: 76,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 4,
         size_id: 1,
-        price: 29
+        price: 29,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 4,
         size_id: 2,
-        price: 42
+        price: 42,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 4,
         size_id: 3,
-        price: 59
+        price: 59,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 4,
         size_id: 4,
-        price: 76
+        price: 76,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 5,
         size_id: 1,
-        price: 29
+        price: 29,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 5,
         size_id: 2,
-        price: 42
+        price: 42,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 5,
         size_id: 3,
-        price: 59
+        price: 59,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 5,
         size_id: 4,
-        price: 76
+        price: 76,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 6,
         size_id: 1,
-        price: 29
+        price: 29,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 6,
         size_id: 2,
-        price: 42
+        price: 42,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 6,
         size_id: 3,
-        price: 59
+        price: 59,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 6,
         size_id: 4,
-        price: 76
+        price: 76,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 7,
         size_id: 1,
-        price: 29
+        price: 12,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 7,
         size_id: 2,
-        price: 42
-      },
-      {
-        taste_id: 7,
-        size_id: 3,
-        price: 59
-      },
-      {
-        taste_id: 7,
-        size_id: 4,
-        price: 76
+        price: 20,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 8,
         size_id: 1,
-        price: 29
+        price: 10,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 8,
         size_id: 2,
-        price: 42
-      },
-      {
-        taste_id: 8,
-        size_id: 3,
-        price: 59
-      },
-      {
-        taste_id: 8,
-        size_id: 4,
-        price: 76
+        price: 18,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 9,
         size_id: 1,
-        price: 29
+        price: 14,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 9,
         size_id: 2,
-        price: 42
-      },
-      {
-        taste_id: 9,
-        size_id: 3,
-        price: 59
-      },
-      {
-        taste_id: 9,
-        size_id: 4,
-        price: 76
+        price: 25,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 10,
         size_id: 1,
-        price: 29
+        price: 14,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 10,
         size_id: 2,
-        price: 42
-      },
-      {
-        taste_id: 10,
-        size_id: 3,
-        price: 59
-      },
-      {
-        taste_id: 10,
-        size_id: 4,
-        price: 76
+        price: 25,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 11,
         size_id: 5,
-        price: 5
-      },
-      {
-        taste_id: 11,
-        size_id: 6,
-        price: 6.50
+        price: 5,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 11,
         size_id: 8,
-        price: 12
+        price: 12,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 12,
         size_id: 5,
-        price: 5.50
+        price: 5.5,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 12,
         size_id: 7,
-        price: 10
+        price: 10,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 13,
         size_id: 5,
-        price: 5.50
+        price: 5.5,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 13,
         size_id: 6,
-        price: 7
-      },
-      {
-        taste_id: 13,
-        size_id: 8,
-        price: 9
+        price: 7,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 14,
         size_id: 5,
-        price: 6
+        price: 6,
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         taste_id: 14,
         size_id: 6,
-        price: 7.50
-      },
-      {
-        taste_id: 14,
-        size_id: 7,
-        price: 10
-      },
+        price: 7.5,
+        created_at: new Date(),
+        updated_at: new Date()
+      }
     ])
   }
 }

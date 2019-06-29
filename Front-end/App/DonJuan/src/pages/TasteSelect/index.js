@@ -3,16 +3,9 @@ import {
   View, Text, FlatList, Image, ScrollView, TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
 import styles from './styles';
-import portuguesa from '../../assets/Pizzas/1.png';
-import calabresa from '../../assets/Pizzas/2.png';
-import frango from '../../assets/Pizzas/3.png';
-import marguerita from '../../assets/Pizzas/4.png';
-import legumes from '../../assets/Pizzas/5.png';
-import quatroq from '../../assets/Pizzas/6.png';
 import Header from '../../components/Header';
-import api from '../../services/api'
+import api from '../../services/api';
 
 class TasteSelect extends Component {
   state = {
@@ -20,20 +13,25 @@ class TasteSelect extends Component {
   };
 
   componentDidMount() {
-    this.getTastes()
+    this.getTastes();
   }
 
   getTastes = async () => {
-    const type = this.props.navigation.getParam('type')
+    const type = this.props.navigation.getParam('type');
     try {
-      const response = await api.get(`/tastes/${type}`)
+      const { data } = await api.get(`/tastes/${type}`);
+
+      data.map((taste) => {
+        taste.image = `${taste.type.name.toLowerCase()}-${taste.image}`;
+      });
+
       this.setState({
-        data: [...response.data]
-      })
+        data: [...data],
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   tasteSelected = (index) => {
     this.props.navigation.navigate('SizeSelect', { taste: index });
@@ -46,7 +44,10 @@ class TasteSelect extends Component {
       style={styles.flatlistContainer}
     >
       <View style={styles.flatlist}>
-        <Image style={styles.flatlistImage} source={item.image} />
+        <Image
+          style={styles.flatlistImage}
+          source={{ uri: `http://10.0.3.2:3333/files/${item.image}` }}
+        />
         <Text style={styles.title}>{item.name}</Text>
       </View>
     </TouchableOpacity>
@@ -54,17 +55,24 @@ class TasteSelect extends Component {
 
   render() {
     const { data } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <Header
           control={(
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
-                <Icon style={styles.icon} name="chevron-left" size={24} color="#fff" />
+                <Icon
+                  onPress={() => navigation.pop()}
+                  style={styles.icon}
+                  name="chevron-left"
+                  size={24}
+                  color="#fff"
+                />
                 <Text style={styles.text}>Selecione um tipo</Text>
               </View>
             </View>
-          )}
+)}
         />
         <View style={styles.content}>
           <ScrollView>

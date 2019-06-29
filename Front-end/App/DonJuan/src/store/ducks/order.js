@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   data: [],
   loading: false,
   error: false,
+  price: [],
 };
 
 export default function order(state = INITIAL_STATE, action) {
@@ -23,7 +24,12 @@ export default function order(state = INITIAL_STATE, action) {
     case Types.REQUEST:
       return { ...state, loading: true };
     case Types.SUCCESS:
-      return { ...state, data: [...state.data, ...action.payload.data], loading: true };
+      return {
+        ...state,
+        data: [...state.data, action.payload.data],
+        loading: true,
+        price: [...state.price, action.payload.data.sizes[0].pivot.price],
+      };
     case Types.FAILURE:
       return { ...state, loading: true, error: true };
     default:

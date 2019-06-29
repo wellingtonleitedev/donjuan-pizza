@@ -4,15 +4,16 @@
 const Schema = use('Schema')
 
 class SizeSchema extends Schema {
-  up() {
-    this.create('sizes', (table) => {
+  up () {
+    this.create('sizes', table => {
       table.increments()
       table.string('size').notNullable()
+      table.string('image').notNullable()
       table.timestamps()
     })
   }
 
-  down() {
+  down () {
     this.drop('sizes')
   }
 }

@@ -26,7 +26,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  priceTotal: {
+  overall: {
     color: colors.white,
     fontFamily: general.fontBold,
     fontSize: 16,
@@ -129,5 +129,12 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 10,
     textAlign: 'center',
+  },
+  clean: {
+    color: colors.danger,
+    fontFamily: general.fontBold,
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginTop: metrics.screenHeight - 500,
   },
 });

@@ -22,10 +22,15 @@ class SizeSelect extends Component {
   getSizes = async () => {
     const taste = this.props.navigation.getParam('taste');
     try {
-      const response = await api.get(`/sizes/${taste}`);
+      const { data } = await api.get(`/sizes/${taste}`);
 
+      data.sizes.map((size) => {
+        size.image = `${data.type.name.toLowerCase()}-${size.image}`;
+      });
+
+      console.tron.log(data);
       this.setState({
-        data: [...response.data.sizes],
+        data: [...data.sizes],
       });
     } catch (err) {
       console.log(err);
@@ -41,8 +46,7 @@ class SizeSelect extends Component {
 
     const product = data.filter(product => product.id == index);
 
-    orderRequest(product);
-    navigate('ShoppingCart');
+    orderRequest(...product);
   };
 
   renderItem = ({ item }) => (
@@ -52,7 +56,10 @@ class SizeSelect extends Component {
       style={styles.flatlistContainer}
     >
       <View style={styles.flatlist}>
-        <Image style={styles.flatlistImage} source={item.image} />
+        <Image
+          style={styles.flatlistImage}
+          source={{ uri: `http://10.0.3.2:3333/files/${item.image}.png` }}
+        />
         <View style={styles.information}>
           <Text style={styles.title}>{item.size}</Text>
           <Text style={styles.price}>{item.pivot.price}</Text>
@@ -63,13 +70,20 @@ class SizeSelect extends Component {
 
   render() {
     const { data } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <Header
           control={(
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
-                <Icon style={styles.icon} name="chevron-left" size={24} color="#fff" />
+                <Icon
+                  onPress={() => navigation.pop()}
+                  style={styles.icon}
+                  name="chevron-left"
+                  size={24}
+                  color="#fff"
+                />
                 <Text style={styles.text}>Selecione um tamanho</Text>
               </View>
             </View>

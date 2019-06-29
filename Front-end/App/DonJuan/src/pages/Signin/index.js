@@ -30,8 +30,6 @@ class Signin extends Component {
 
     const {
       navigation: { navigate },
-      loginSuccess,
-      loginFailure,
     } = this.props;
 
     if (!inputEmail || !inputPass) {
@@ -40,15 +38,13 @@ class Signin extends Component {
       });
     } else {
       try {
-        const response = await api.post('signin', {
+        const response = await api.post('signin-app', {
           email: inputEmail,
           password: inputPass,
         });
-        loginSuccess(response.data);
         login(response.data.token);
         navigate('TypeSelect');
       } catch (err) {
-        loginFailure();
         console.log(err);
         this.setState({
           error: 'Não foi possível acessar, verifique as credenciais',
