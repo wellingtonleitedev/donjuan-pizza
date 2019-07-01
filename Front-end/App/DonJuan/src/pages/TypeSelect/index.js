@@ -4,10 +4,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
-import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
+import { URLS } from '../../constants';
 
 class TypeSelect extends Component {
   state = {
@@ -42,7 +42,7 @@ class TypeSelect extends Component {
       <View style={styles.flatlist}>
         <Image
           style={styles.flatlistImage}
-          source={{ uri: `http://10.0.3.2:3333/files/type-${item.image}` }}
+          source={{ uri: `${URLS.BASE_URL}/files/type-${item.image}` }}
         />
         <View style={styles.information}>
           <Text style={styles.title}>{item.name}</Text>
@@ -83,7 +83,7 @@ class TypeSelect extends Component {
                 color="#fff"
               />
             </View>
-)}
+          )}
         />
         <View style={styles.content}>
           <ScrollView>

@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
+import { URLS } from '../../constants';
 
 class TasteSelect extends Component {
   state = {
@@ -46,7 +47,7 @@ class TasteSelect extends Component {
       <View style={styles.flatlist}>
         <Image
           style={styles.flatlistImage}
-          source={{ uri: `http://10.0.3.2:3333/files/${item.image}` }}
+          source={{ uri: `${URLS.BASE_URL}/files/${item.image}` }}
         />
         <Text style={styles.title}>{item.name}</Text>
       </View>
@@ -72,7 +73,7 @@ class TasteSelect extends Component {
                 <Text style={styles.text}>Selecione um tipo</Text>
               </View>
             </View>
-)}
+          )}
         />
         <View style={styles.content}>
           <ScrollView>

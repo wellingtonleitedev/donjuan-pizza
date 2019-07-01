@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Image, TextInput, Text,
+  View, Image, TextInput, Text, StatusBar,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -62,6 +62,7 @@ class Signin extends Component {
     console.tron.log(this.props);
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#565b63" barStyle="light-content" />
         <Image style={styles.bgImage} source={backgroundImage} />
         <View style={styles.form}>
           <View style={styles.logoView}>

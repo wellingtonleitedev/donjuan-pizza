@@ -56,6 +56,7 @@ class Signup extends Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#565b63" barStyle="light-content" />
         <Image style={styles.bgImage} source={backgroundImage} />
         <View style={styles.form}>
           <View style={styles.logoView}>

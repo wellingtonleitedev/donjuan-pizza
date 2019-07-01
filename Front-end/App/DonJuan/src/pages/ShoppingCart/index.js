@@ -10,9 +10,10 @@ import { Creators as orderActions } from '../../store/ducks/order';
 import styles from './styles';
 import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
+import { URLS } from '../../constants';
 
 class ShoppingCart extends Component {
-  componentDidMount() {}
+  componentDidMount() { }
 
   closeCart = () => {
     const { data } = this.props.orderProducts;
@@ -46,7 +47,7 @@ class ShoppingCart extends Component {
         <View style={styles.imageView}>
           <Image
             style={styles.flatlistImage}
-            source={{ uri: `http://10.0.3.2:3333/files/${item.image}` }}
+            source={{ uri: `${URLS.BASE_URL}/files/${item.image}` }}
           />
         </View>
         <View style={styles.information}>
@@ -88,7 +89,7 @@ class ShoppingCart extends Component {
               </View>
               <Text style={styles.overall}>{`R$ ${this.sumPrices(data)}`}</Text>
             </View>
-)}
+          )}
         />
         <View style={styles.content}>
           <ScrollView>
@@ -102,22 +103,22 @@ class ShoppingCart extends Component {
         {!data.length ? (
           <Text style={styles.clean}>Não há produtos em seu carrinho!</Text>
         ) : (
-          <View style={styles.buttonGroup}>
-            <IconMaterial
-              onPress={() => this.props.navigation.navigate('TypeSelect')}
-              style={styles.iconAdd}
-              name="add-shopping-cart"
-              size={20}
-              color="#666666"
-            />
-            <PrimaryButton style={styles.primaryButton} onPress={index => this.closeCart(index)}>
-              <View style={styles.buttonProp}>
-                <Text style={styles.textButton}>REALIZAR PEDIDO</Text>
-                <Icon name="chevron-right" size={20} color="#fff" />
-              </View>
-            </PrimaryButton>
-          </View>
-        )}
+            <View style={styles.buttonGroup}>
+              <IconMaterial
+                onPress={() => this.props.navigation.navigate('TypeSelect')}
+                style={styles.iconAdd}
+                name="add-shopping-cart"
+                size={20}
+                color="#666666"
+              />
+              <PrimaryButton style={styles.primaryButton} onPress={index => this.closeCart(index)}>
+                <View style={styles.buttonProp}>
+                  <Text style={styles.textButton}>REALIZAR PEDIDO</Text>
+                  <Icon name="chevron-right" size={20} color="#fff" />
+                </View>
+              </PrimaryButton>
+            </View>
+          )}
       </View>
     );
   }

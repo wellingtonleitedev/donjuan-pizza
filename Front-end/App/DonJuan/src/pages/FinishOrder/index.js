@@ -8,6 +8,7 @@ import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
 import api from '../../services/api';
 import { Creators as orderActions } from '../../store/ducks/order';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class FinishOrder extends Component {
   state = {
@@ -120,9 +121,12 @@ class FinishOrder extends Component {
               </View>
               <Text style={styles.priceTotal}>{`R$ ${overall}`}</Text>
             </View>
-)}
+          )}
         />
-        <View style={styles.content}>
+        <ScrollView
+          style={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
           <TextInput
             style={styles.inputNote}
             textAlignVertical="top"
@@ -150,7 +154,7 @@ class FinishOrder extends Component {
             />
             <TextInput
               ref={(input) => {
-                this.numberInput = input,
+                this.numberInput = input;
               }}
               style={styles.inputNumber}
               value={number}
@@ -166,7 +170,7 @@ class FinishOrder extends Component {
             onChangeText={text => this.setState({ neighborhood: text })}
             placeholder="Bairro"
           />
-        </View>
+        </ScrollView>
         <View style={styles.buttonGroup}>
           <PrimaryButton style={styles.primaryButton} onPress={this.setOrder}>
             <View style={styles.buttonProp}>

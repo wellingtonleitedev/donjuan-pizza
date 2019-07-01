@@ -9,6 +9,7 @@ import { Creators as orderActions } from '../../store/ducks/order';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
+import { URLS } from '../../constants';
 
 class SizeSelect extends Component {
   state = {
@@ -58,7 +59,7 @@ class SizeSelect extends Component {
       <View style={styles.flatlist}>
         <Image
           style={styles.flatlistImage}
-          source={{ uri: `http://10.0.3.2:3333/files/${item.image}.png` }}
+          source={{ uri: `${URLS.BASE_URL}/files/${item.image}.png` }}
         />
         <View style={styles.information}>
           <Text style={styles.title}>{item.size}</Text>
@@ -87,7 +88,7 @@ class SizeSelect extends Component {
                 <Text style={styles.text}>Selecione um tamanho</Text>
               </View>
             </View>
-)}
+          )}
         />
         <View style={styles.content}>
           <ScrollView>
