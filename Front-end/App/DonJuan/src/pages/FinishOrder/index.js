@@ -23,6 +23,21 @@ class FinishOrder extends Component {
     console.tron.log(this.props.orderProducts);
   }
 
+  fetchCep = async () => {
+    const { cep } = this.state;
+
+    try {
+      const response = await api.get(`https://viacep.com.br/ws/${cep}/json/`);
+
+      this.setState({
+        street: response.data.logradouro,
+        neighborhood: response.data.bairro,
+      });
+    } catch (err) {
+      console.tron.log(err);
+    }
+  };
+
   setOrder = async () => {
     const {
       note, cep, street, number, neighborhood,
@@ -122,6 +137,9 @@ class FinishOrder extends Component {
             onChangeText={text => this.setState({ cep: text })}
             placeholder="Qual seu CEP?"
             keyboardType="numeric"
+            returnKeyType="next"
+            onSubmitEditing={() => this.numberInput.focus()}
+            onBlur={this.fetchCep}
           />
           <View style={styles.inputView}>
             <TextInput
@@ -131,11 +149,15 @@ class FinishOrder extends Component {
               placeholder="Rua"
             />
             <TextInput
+              ref={(input) => {
+                this.numberInput = input,
+              }}
               style={styles.inputNumber}
               value={number}
               onChangeText={text => this.setState({ number: text })}
               placeholder="Nº"
               keyboardType="numeric"
+
             />
           </View>
           <TextInput
