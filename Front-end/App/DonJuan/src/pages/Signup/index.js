@@ -63,6 +63,7 @@ class Signup extends Component {
           </View>
           {!!error && <Text style={styles.errorText}>{error}</Text>}
           <TextInput
+            autoCapitalize="sentences"
             style={styles.input}
             placeholder="Nome completo"
             value={inputName}
@@ -74,6 +75,7 @@ class Signup extends Component {
             placeholder="Seu e-mail"
             value={inputEmail}
             onChangeText={text => this.setState({ inputEmail: text })}
+            keyboardType="email-address"
           />
           <TextInput
             autoCapitalize="none"
@@ -82,6 +84,8 @@ class Signup extends Component {
             placeholder="Senha secreta"
             value={inputPass}
             onChangeText={text => this.setState({ inputPass: text })}
+            returnKeyType="send"
+            onSubmitEditing={this.handleSignin}
           />
           <PrimaryButton onPress={this.handleSignup} style={styles.button}>
             <Text style={styles.text}>Criar conta</Text>

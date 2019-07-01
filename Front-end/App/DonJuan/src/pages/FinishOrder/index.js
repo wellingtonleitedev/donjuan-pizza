@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import styles from './styles';
 import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
 import api from '../../services/api';
+import { Creators as orderActions } from '../../store/ducks/order';
 
 class FinishOrder extends Component {
   state = {
@@ -27,6 +29,7 @@ class FinishOrder extends Component {
     } = this.state;
 
     const {
+      orderClearSuccess,
       orderProducts: { data },
       navigation,
       navigation: { navigate },
@@ -69,7 +72,7 @@ class FinishOrder extends Component {
         });
       });
 
-      navigate('MyOrders');
+      orderClearSuccess();
     } catch (err) {
       this.setState({
         error: 'Houve algum problema com seu pedido, verifique seu endereço ou tente novamente!',
@@ -82,6 +85,8 @@ class FinishOrder extends Component {
       note, cep, street, number, neighborhood, error,
     } = this.state;
     const { navigation } = this.props;
+
+    const overall = navigation.getParam('overall');
 
     return (
       <View style={styles.container}>
@@ -98,7 +103,7 @@ class FinishOrder extends Component {
                 />
                 <Text style={styles.text}>Realizar pedido</Text>
               </View>
-              <Text style={styles.priceTotal}>R$ 107,00</Text>
+              <Text style={styles.priceTotal}>{`R$ ${overall}`}</Text>
             </View>
 )}
         />
@@ -116,6 +121,7 @@ class FinishOrder extends Component {
             value={cep}
             onChangeText={text => this.setState({ cep: text })}
             placeholder="Qual seu CEP?"
+            keyboardType="numeric"
           />
           <View style={styles.inputView}>
             <TextInput
@@ -129,6 +135,7 @@ class FinishOrder extends Component {
               value={number}
               onChangeText={text => this.setState({ number: text })}
               placeholder="Nº"
+              keyboardType="numeric"
             />
           </View>
           <TextInput
@@ -154,8 +161,13 @@ class FinishOrder extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => bindActionCreators(orderActions, dispatch);
+
 const mapStateToProps = state => ({
   orderProducts: state.order,
 });
 
-export default connect(mapStateToProps)(FinishOrder);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FinishOrder);

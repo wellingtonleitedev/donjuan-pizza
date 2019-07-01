@@ -4,7 +4,9 @@
 
 export const Types = {
   REQUEST: 'ORDER_REQUEST',
-  SUCCESS: 'ORDER_SUCCESS',
+  PUT_SUCCESS: 'ORDER_PUT_SUCCESS',
+  REMOVE_SUCCESS: 'ORDER_REMOVE_SUCCESS',
+  CLEAR_SUCCESS: 'ORDER_CLEAR_SUCCESS',
   FAILURE: 'ORDER_FAILURE',
 };
 
@@ -16,19 +18,29 @@ const INITIAL_STATE = {
   data: [],
   loading: false,
   error: false,
-  price: [],
 };
 
 export default function order(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.REQUEST:
       return { ...state, loading: true };
-    case Types.SUCCESS:
+    case Types.PUT_SUCCESS:
       return {
         ...state,
         data: [...state.data, action.payload.data],
-        loading: true,
-        price: [...state.price, action.payload.data.sizes[0].pivot.price],
+        loading: false,
+      };
+    case Types.REMOVE_SUCCESS:
+      return {
+        ...state,
+        data: state.data.filter(item => item.id !== action.payload.data.id),
+        loading: false,
+      };
+    case Types.CLEAR_SUCCESS:
+      return {
+        ...state,
+        data: [],
+        loading: false,
       };
     case Types.FAILURE:
       return { ...state, loading: true, error: true };
@@ -47,9 +59,18 @@ export const Creators = {
     payload: { data },
   }),
 
-  orderSuccess: data => ({
-    type: Types.SUCCESS,
+  orderPutSuccess: data => ({
+    type: Types.PUT_SUCCESS,
     payload: { data },
+  }),
+
+  orderRemoveSuccess: data => ({
+    type: Types.REMOVE_SUCCESS,
+    payload: { data },
+  }),
+
+  orderClearSuccess: () => ({
+    type: Types.CLEAR_SUCCESS,
   }),
 
   orderFailure: () => ({

@@ -74,14 +74,22 @@ class Signin extends Component {
             placeholder="Seu e-mail"
             value={inputEmail}
             onChangeText={text => this.setState({ inputEmail: text })}
+            keyboardType="email-address"
+            returnKeyType="next"
+            onSubmitEditing={() => this.passwordInput.focus()}
           />
           <TextInput
+            ref={(input) => {
+              this.passwordInput = input;
+            }}
             autoCapitalize="none"
             secureTextEntry
             style={styles.input}
             placeholder="Senha secreta"
             value={inputPass}
             onChangeText={text => this.setState({ inputPass: text })}
+            returnKeyType="send"
+            onSubmitEditing={this.handleSignin}
           />
           <PrimaryButton onPress={this.handleSignin} style={styles.button}>
             <Text style={styles.text}>Entrar</Text>
