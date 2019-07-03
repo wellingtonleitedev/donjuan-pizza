@@ -5,7 +5,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Creators as orderActions } from '../../store/ducks/order';
+import orderActions, { OrderTypes } from '../../store/ducks/order';
+
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
@@ -29,7 +30,6 @@ class SizeSelect extends Component {
         size.image = `${data.type.name.toLowerCase()}-${size.image}`;
       });
 
-      console.tron.log(data);
       this.setState({
         data: [...data.sizes],
       });
@@ -40,14 +40,11 @@ class SizeSelect extends Component {
 
   sizeSelected = (index) => {
     const { data } = this.state;
-    const {
-      orderRequest,
-      navigation: { navigate },
-    } = this.props;
+    const { setOrderRequest } = this.props;
 
-    const product = data.filter(product => product.id == index);
+    const product = data.filter(item => item.id === index);
 
-    orderRequest(...product);
+    setOrderRequest(...product);
   };
 
   renderItem = ({ item }) => (
@@ -88,10 +85,10 @@ class SizeSelect extends Component {
                 <Text style={styles.text}>Selecione um tamanho</Text>
               </View>
             </View>
-          )}
+)}
         />
         <View style={styles.content}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <FlatList
               renderItem={this.renderItem}
               data={data}

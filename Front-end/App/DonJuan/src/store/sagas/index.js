@@ -1,10 +1,11 @@
 import { all, takeLatest } from 'redux-saga/effects';
-import { orderPut, orderRemove, orderClear } from './order';
+import { setOrder, removeOrder, clearOrder } from './order';
+import { OrderTypes } from '../ducks/order';
 
 export default function* rootSaga() {
   return yield all([
-    takeLatest('ORDER_REQUEST', orderPut),
-    takeLatest('ORDER_REMOVE_SUCCESS', orderRemove),
-    takeLatest('ORDER_CLEAR_SUCCESS', orderClear),
+    takeLatest(OrderTypes.SET_ORDER_REQUEST, setOrder),
+    takeLatest(OrderTypes.REMOVE_ORDER_REQUEST, removeOrder),
+    takeLatest(OrderTypes.CLEAR_ORDER_REQUEST, clearOrder),
   ]);
 }

@@ -70,8 +70,8 @@ export default StyleSheet.create({
     width: 90,
   },
   flatlistImage: {
-    maxHeight: 80,
-    maxWidth: 80,
+    height: 74,
+    width: 74,
   },
   information: {
     alignItems: 'flex-start',

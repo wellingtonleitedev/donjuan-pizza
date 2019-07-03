@@ -6,25 +6,30 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Creators as orderActions } from '../../store/ducks/order';
+import orderActions from '../../store/ducks/order';
 import styles from './styles';
 import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
 import { URLS } from '../../constants';
 
 class ShoppingCart extends Component {
-  componentDidMount() { }
+  componentDidMount() {
+    console.tron.log(this.props);
+  }
 
   closeCart = () => {
-    const { data } = this.props.orderProducts;
+    const {
+      orderProducts: { data },
+      navigation: { navigate },
+    } = this.props;
 
-    this.props.navigation.navigate('FinishOrder', { overall: this.sumPrices(data) });
+    navigate('FinishOrder', { overall: this.sumPrices(data) });
   };
 
   removeItem = (item) => {
-    const { orderRemoveSuccess } = this.props;
+    const { removeOrderRequest } = this.props;
 
-    orderRemoveSuccess(item);
+    removeOrderRequest(item);
   };
 
   sumPrices = (data) => {
@@ -33,7 +38,7 @@ class ShoppingCart extends Component {
     let value = 0;
 
     if (data.length) {
-      data.map(val => arr.push(parseFloat(val.sizes[0].pivot.price)));
+      data.map(val => arr.push(parseFloat(val.price)));
 
       value = arr.reduce(reducer);
     }
@@ -41,31 +46,34 @@ class ShoppingCart extends Component {
     return value.toFixed(2);
   };
 
-  renderItem = ({ item }) => (
-    <View key={item.id} style={styles.flatlistContainer}>
-      <View style={styles.flatlist}>
-        <View style={styles.imageView}>
-          <Image
-            style={styles.flatlistImage}
-            source={{ uri: `${URLS.BASE_URL}/files/${item.image}` }}
-          />
-        </View>
-        <View style={styles.information}>
-          <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.description}>{item.sizes[0].size}</Text>
-          <Text style={styles.price}>{item.sizes[0].pivot.price}</Text>
-        </View>
-        <View style={styles.iconDelete}>
-          <Icon
-            onPress={() => this.removeItem(item)}
-            name="delete-forever"
-            size={20}
-            color="#e5293e"
-          />
+  renderItem = ({ item }) => {
+    console.tron.log(item);
+    return (
+      <View key={item.id} style={styles.flatlistContainer}>
+        <View style={styles.flatlist}>
+          <View style={styles.imageView}>
+            <Image
+              style={styles.flatlistImage}
+              source={{ uri: `${URLS.BASE_URL}/files/${item.type_id}-${item.image}` }}
+            />
+          </View>
+          <View style={styles.information}>
+            <Text style={styles.title}>{item.name}</Text>
+            <Text style={styles.description}>{item.size}</Text>
+            <Text style={styles.price}>{item.price}</Text>
+          </View>
+          <View style={styles.iconDelete}>
+            <Icon
+              onPress={() => this.removeItem(item)}
+              name="delete-forever"
+              size={20}
+              color="#e5293e"
+            />
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   render() {
     const {
@@ -89,10 +97,10 @@ class ShoppingCart extends Component {
               </View>
               <Text style={styles.overall}>{`R$ ${this.sumPrices(data)}`}</Text>
             </View>
-          )}
+)}
         />
         <View style={styles.content}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <FlatList
               renderItem={this.renderItem}
               data={data}
@@ -103,22 +111,22 @@ class ShoppingCart extends Component {
         {!data.length ? (
           <Text style={styles.clean}>Não há produtos em seu carrinho!</Text>
         ) : (
-            <View style={styles.buttonGroup}>
-              <IconMaterial
-                onPress={() => this.props.navigation.navigate('TypeSelect')}
-                style={styles.iconAdd}
-                name="add-shopping-cart"
-                size={20}
-                color="#666666"
-              />
-              <PrimaryButton style={styles.primaryButton} onPress={index => this.closeCart(index)}>
-                <View style={styles.buttonProp}>
-                  <Text style={styles.textButton}>REALIZAR PEDIDO</Text>
-                  <Icon name="chevron-right" size={20} color="#fff" />
-                </View>
-              </PrimaryButton>
-            </View>
-          )}
+          <View style={styles.buttonGroup}>
+            <IconMaterial
+              onPress={() => this.props.navigation.navigate('TypeSelect')}
+              style={styles.iconAdd}
+              name="add-shopping-cart"
+              size={20}
+              color="#666666"
+            />
+            <PrimaryButton style={styles.primaryButton} onPress={index => this.closeCart(index)}>
+              <View style={styles.buttonProp}>
+                <Text style={styles.textButton}>REALIZAR PEDIDO</Text>
+                <Icon name="chevron-right" size={20} color="#fff" />
+              </View>
+            </PrimaryButton>
+          </View>
+        )}
       </View>
     );
   }

@@ -62,7 +62,7 @@ class ShoppingCart extends Component {
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
                 <Icon
-                  onPress={() => navigation.pop()}
+                  onPress={() => navigation.popToTop()}
                   style={styles.icon}
                   name="chevron-left"
                   size={24}
@@ -74,7 +74,7 @@ class ShoppingCart extends Component {
 )}
         />
         <View style={styles.content}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <FlatList
               renderItem={this.renderItem}
               data={data}

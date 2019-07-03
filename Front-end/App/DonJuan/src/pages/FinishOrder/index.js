@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import {
+  View, Text, TextInput, ScrollView,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,8 +9,7 @@ import styles from './styles';
 import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
 import api from '../../services/api';
-import { Creators as orderActions } from '../../store/ducks/order';
-import { ScrollView } from 'react-native-gesture-handler';
+import orderActions from '../../store/ducks/order';
 
 class FinishOrder extends Component {
   state = {
@@ -19,10 +20,6 @@ class FinishOrder extends Component {
     neighborhood: '',
     error: '',
   };
-
-  componentDidMount() {
-    console.tron.log(this.props.orderProducts);
-  }
 
   fetchCep = async () => {
     const { cep } = this.state;
@@ -45,10 +42,9 @@ class FinishOrder extends Component {
     } = this.state;
 
     const {
-      orderClearSuccess,
+      clearOrderRequest,
       orderProducts: { data },
       navigation,
-      navigation: { navigate },
     } = this.props;
 
     const overall = navigation.getParam('overall');
@@ -84,11 +80,11 @@ class FinishOrder extends Component {
           order_id: order.data.id,
           type_id: product.type_id,
           taste_id: product.id,
-          size_id: product.sizes[0].id,
+          size_id: product.size_id,
         });
       });
 
-      orderClearSuccess();
+      clearOrderRequest();
     } catch (err) {
       this.setState({
         error: 'Houve algum problema com seu pedido, verifique seu endereço ou tente novamente!',
@@ -121,12 +117,9 @@ class FinishOrder extends Component {
               </View>
               <Text style={styles.priceTotal}>{`R$ ${overall}`}</Text>
             </View>
-          )}
+)}
         />
-        <ScrollView
-          style={styles.content}
-          showsVerticalScrollIndicator={false}
-        >
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <TextInput
             style={styles.inputNote}
             textAlignVertical="top"
@@ -161,7 +154,6 @@ class FinishOrder extends Component {
               onChangeText={text => this.setState({ number: text })}
               placeholder="Nº"
               keyboardType="numeric"
-
             />
           </View>
           <TextInput

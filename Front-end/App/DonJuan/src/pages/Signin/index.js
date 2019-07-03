@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Image, TextInput, Text, StatusBar,
+  View, Image, TextInput, Text, StatusBar, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -64,41 +64,43 @@ class Signin extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor="#565b63" barStyle="light-content" />
         <Image style={styles.bgImage} source={backgroundImage} />
-        <View style={styles.form}>
-          <View style={styles.logoView}>
-            <Image style={styles.logo} source={logo} />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.form}>
+            <View style={styles.logoView}>
+              <Image style={styles.logo} source={logo} />
+            </View>
+            {!!error && <Text style={styles.errorText}>{error}</Text>}
+            <TextInput
+              autoCapitalize="none"
+              style={styles.input}
+              placeholder="Seu e-mail"
+              value={inputEmail}
+              onChangeText={text => this.setState({ inputEmail: text })}
+              keyboardType="email-address"
+              returnKeyType="next"
+              onSubmitEditing={() => this.passwordInput.focus()}
+            />
+            <TextInput
+              ref={(input) => {
+                this.passwordInput = input;
+              }}
+              autoCapitalize="none"
+              secureTextEntry
+              style={styles.input}
+              placeholder="Senha secreta"
+              value={inputPass}
+              onChangeText={text => this.setState({ inputPass: text })}
+              returnKeyType="send"
+              onSubmitEditing={this.handleSignin}
+            />
+            <PrimaryButton onPress={this.handleSignin} style={styles.button}>
+              <Text style={styles.text}>Entrar</Text>
+            </PrimaryButton>
+            <Text style={styles.text} onPress={() => navigate('Signup')}>
+              Criar conta gratuita
+            </Text>
           </View>
-          {!!error && <Text style={styles.errorText}>{error}</Text>}
-          <TextInput
-            autoCapitalize="none"
-            style={styles.input}
-            placeholder="Seu e-mail"
-            value={inputEmail}
-            onChangeText={text => this.setState({ inputEmail: text })}
-            keyboardType="email-address"
-            returnKeyType="next"
-            onSubmitEditing={() => this.passwordInput.focus()}
-          />
-          <TextInput
-            ref={(input) => {
-              this.passwordInput = input;
-            }}
-            autoCapitalize="none"
-            secureTextEntry
-            style={styles.input}
-            placeholder="Senha secreta"
-            value={inputPass}
-            onChangeText={text => this.setState({ inputPass: text })}
-            returnKeyType="send"
-            onSubmitEditing={this.handleSignin}
-          />
-          <PrimaryButton onPress={this.handleSignin} style={styles.button}>
-            <Text style={styles.text}>Entrar</Text>
-          </PrimaryButton>
-          <Text style={styles.text} onPress={() => navigate('Signup')}>
-            Criar conta gratuita
-          </Text>
-        </View>
+        </ScrollView>
       </View>
     );
   }

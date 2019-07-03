@@ -83,10 +83,10 @@ class TypeSelect extends Component {
                 color="#fff"
               />
             </View>
-          )}
+)}
         />
         <View style={styles.content}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <FlatList
               renderItem={this.renderItem}
               data={data}

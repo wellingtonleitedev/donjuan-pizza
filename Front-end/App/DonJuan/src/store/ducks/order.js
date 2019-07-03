@@ -1,14 +1,20 @@
+import { createReducer, createActions } from 'reduxsauce';
 /**
- * Actions Types
+ * Actions Types & Creators
  */
 
-export const Types = {
-  REQUEST: 'ORDER_REQUEST',
-  PUT_SUCCESS: 'ORDER_PUT_SUCCESS',
-  REMOVE_SUCCESS: 'ORDER_REMOVE_SUCCESS',
-  CLEAR_SUCCESS: 'ORDER_CLEAR_SUCCESS',
-  FAILURE: 'ORDER_FAILURE',
-};
+const { Types, Creators } = createActions({
+  setOrderRequest: ['data'],
+  setOrderSuccess: ['data'],
+  removeOrderRequest: ['data'],
+  removeOrderSuccess: ['data'],
+  clearOrderRequest: null,
+  clearOrderSuccess: null,
+  orderFailure: null,
+});
+
+export const OrderTypes = Types;
+export default Creators;
 
 /**
  * Reducers
@@ -20,60 +26,24 @@ const INITIAL_STATE = {
   error: false,
 };
 
-export default function order(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case Types.REQUEST:
-      return { ...state, loading: true };
-    case Types.PUT_SUCCESS:
-      return {
-        ...state,
-        data: [...state.data, action.payload.data],
-        loading: false,
-      };
-    case Types.REMOVE_SUCCESS:
-      return {
-        ...state,
-        data: state.data.filter(item => item.id !== action.payload.data.id),
-        loading: false,
-      };
-    case Types.CLEAR_SUCCESS:
-      return {
-        ...state,
-        data: [],
-        loading: false,
-      };
-    case Types.FAILURE:
-      return { ...state, loading: true, error: true };
-    default:
-      return state;
-  }
-}
-
-/**
- * Actions Creators
- */
-
-export const Creators = {
-  orderRequest: data => ({
-    type: Types.REQUEST,
-    payload: { data },
+export const reducer = createReducer(INITIAL_STATE, {
+  [Types.SET_ORDER_REQUEST]: state => ({ ...state, loading: true }),
+  [Types.SET_ORDER_SUCCESS]: (state, action) => ({
+    ...state,
+    data: [...state.data, action.data],
+    loading: false,
   }),
-
-  orderPutSuccess: data => ({
-    type: Types.PUT_SUCCESS,
-    payload: { data },
+  [Types.REMOVE_ORDER_REQUEST]: state => ({ ...state, loading: true }),
+  [Types.REMOVE_ORDER_SUCCESS]: (state, action) => ({
+    ...state,
+    data: state.data.filter(item => item.id !== action.data.id),
+    loading: false,
   }),
-
-  orderRemoveSuccess: data => ({
-    type: Types.REMOVE_SUCCESS,
-    payload: { data },
+  [Types.CLEAR_ORDER_REQUEST]: state => ({ ...state, loading: true }),
+  [Types.CLEAR_ORDER_SUCCESS]: state => ({
+    ...state,
+    data: [],
+    loading: false,
   }),
-
-  orderClearSuccess: () => ({
-    type: Types.CLEAR_SUCCESS,
-  }),
-
-  orderFailure: () => ({
-    type: Types.FAILURE,
-  }),
-};
+  [Types.ORDER_FAILURE]: state => ({ ...state, loading: false, error: true }),
+});

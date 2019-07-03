@@ -23,7 +23,7 @@ class TasteSelect extends Component {
       const { data } = await api.get(`/tastes/${type}`);
 
       data.map((taste) => {
-        taste.image = `${taste.type.name.toLowerCase()}-${taste.image}`;
+        taste.image = `${taste.type.id}-${taste.image}`;
       });
 
       this.setState({
@@ -73,10 +73,10 @@ class TasteSelect extends Component {
                 <Text style={styles.text}>Selecione um tipo</Text>
               </View>
             </View>
-          )}
+)}
         />
         <View style={styles.content}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <FlatList
               renderItem={this.renderItem}
               data={data}
