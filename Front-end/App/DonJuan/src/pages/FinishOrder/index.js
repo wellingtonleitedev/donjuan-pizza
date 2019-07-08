@@ -5,6 +5,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import PrimaryButton from '../../components/PrimaryButton';
 import Header from '../../components/Header';
@@ -44,10 +45,10 @@ class FinishOrder extends Component {
     const {
       clearOrderRequest,
       orderProducts: { data },
-      navigation,
+      navigation: { getParam },
     } = this.props;
 
-    const overall = navigation.getParam('overall');
+    const overall = getParam('overall');
 
     if (!cep || !street || !number || !neighborhood) {
       this.setState({
@@ -96,9 +97,11 @@ class FinishOrder extends Component {
     const {
       note, cep, street, number, neighborhood, error,
     } = this.state;
-    const { navigation } = this.props;
+    const {
+      navigation: { pop, getParam },
+    } = this.props;
 
-    const overall = navigation.getParam('overall');
+    const overall = getParam('overall');
 
     return (
       <View style={styles.container}>
@@ -107,7 +110,7 @@ class FinishOrder extends Component {
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
                 <Icon
-                  onPress={() => navigation.pop()}
+                  onPress={() => pop()}
                   style={styles.icon}
                   name="chevron-left"
                   size={24}
@@ -178,6 +181,18 @@ class FinishOrder extends Component {
     );
   }
 }
+
+FinishOrder.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+    getParam: PropTypes.func,
+    pop: PropTypes.func,
+  }).isRequired,
+  orderProducts: PropTypes.shape({
+    data: PropTypes.array,
+  }).isRequired,
+  clearOrderRequest: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = dispatch => bindActionCreators(orderActions, dispatch);
 

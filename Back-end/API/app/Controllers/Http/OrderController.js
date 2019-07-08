@@ -3,9 +3,12 @@
 const Order = use('App/Models/Order')
 
 class OrderController {
-  async index ({ auth }) {
+  async index () {
     const orders = Order.query()
-      .where('user_id', auth.user.id)
+      .with('user')
+      .with('products')
+      .with('products.tastes')
+      .with('products.size')
       .fetch()
 
     return orders
@@ -26,7 +29,13 @@ class OrderController {
     return order
   }
 
-  async show ({ params, request, response, view }) {}
+  async show ({ auth }) {
+    const orders = Order.query()
+      .where('user_id', auth.user.id)
+      .fetch()
+
+    return orders
+  }
 }
 
 module.exports = OrderController

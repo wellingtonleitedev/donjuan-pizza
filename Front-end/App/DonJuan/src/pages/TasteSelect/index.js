@@ -1,14 +1,17 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import {
   View, Text, FlatList, Image, ScrollView, TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
 import { URLS } from '../../constants';
 
-class TasteSelect extends Component {
+export default class TasteSelect extends Component {
   state = {
     data: [],
   };
@@ -18,7 +21,11 @@ class TasteSelect extends Component {
   }
 
   getTastes = async () => {
-    const type = this.props.navigation.getParam('type');
+    const {
+      navigation: { getParam },
+    } = this.props;
+
+    const type = getParam('type');
     try {
       const { data } = await api.get(`/tastes/${type}`);
 
@@ -30,12 +37,16 @@ class TasteSelect extends Component {
         data: [...data],
       });
     } catch (err) {
-      console.log(err);
+      console.tron.log(err);
     }
   };
 
   tasteSelected = (index) => {
-    this.props.navigation.navigate('SizeSelect', { taste: index });
+    const {
+      navigation: { navigate },
+    } = this.props;
+
+    navigate('SizeSelect', { taste: index });
   };
 
   renderItem = ({ item }) => (
@@ -56,7 +67,9 @@ class TasteSelect extends Component {
 
   render() {
     const { data } = this.state;
-    const { navigation } = this.props;
+    const {
+      navigation: { pop },
+    } = this.props;
     return (
       <View style={styles.container}>
         <Header
@@ -64,7 +77,7 @@ class TasteSelect extends Component {
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
                 <Icon
-                  onPress={() => navigation.pop()}
+                  onPress={() => pop()}
                   style={styles.icon}
                   name="chevron-left"
                   size={24}
@@ -90,4 +103,10 @@ class TasteSelect extends Component {
   }
 }
 
-export default TasteSelect;
+TasteSelect.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+    getParam: PropTypes.func,
+    pop: PropTypes.func,
+  }).isRequired,
+};

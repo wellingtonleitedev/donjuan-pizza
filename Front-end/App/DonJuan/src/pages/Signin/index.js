@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import {
   View, Image, TextInput, Text, StatusBar, ScrollView,
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import backgroundImage from '../../assets/fundo.png';
 import logo from '../../assets/logo.png';
 import PrimaryButton from '../../components/PrimaryButton';
-import { Creators as loginActions } from '../../store/ducks/login';
 import api from '../../services/api';
 import { isAuthenticated, login } from '../../services/auth';
 
-class Signin extends Component {
+export default class Signin extends Component {
   state = {
     inputEmail: '',
     inputPass: '',
@@ -20,8 +18,9 @@ class Signin extends Component {
   };
 
   async componentDidMount() {
+    const { navigation } = this.props;
     if (await isAuthenticated()) {
-      this.props.navigation.navigate('TypeSelect');
+      navigation.navigate('TypeSelect');
     }
   }
 
@@ -45,9 +44,15 @@ class Signin extends Component {
         login(response.data.token);
         navigate('TypeSelect');
       } catch (err) {
-        console.log(err);
+        let error = null;
+        if (err.message === 'Request failed with status code 417') {
+          error = 'Esse usuário não tem permissão para acessar!';
+        } else {
+          error = 'Não foi possível acessar, verifique as credenciais.';
+        }
+
         this.setState({
-          error: 'Não foi possível acessar, verifique as credenciais',
+          error,
         });
       }
     }
@@ -59,7 +64,6 @@ class Signin extends Component {
     } = this.props;
 
     const { inputEmail, inputPass, error } = this.state;
-    console.tron.log(this.props);
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#565b63" barStyle="light-content" />
@@ -106,13 +110,8 @@ class Signin extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators(loginActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Signin);
+Signin.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+};

@@ -11,7 +11,7 @@ class SessionAppController {
     const user = await User.findByOrFail('email', email)
 
     if (user.provider) {
-      return response.status(401).json({ error: true })
+      return response.status(417).json({ error: true })
     }
 
     user.token = token.token

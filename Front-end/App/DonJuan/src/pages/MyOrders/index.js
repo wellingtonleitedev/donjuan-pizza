@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import {
   View, Text, FlatList, ScrollView,
@@ -5,11 +7,12 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { distanceInWordsToNow } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
 
-class ShoppingCart extends Component {
+export default class MyOrders extends Component {
   state = {
     data: [],
   };
@@ -20,7 +23,7 @@ class ShoppingCart extends Component {
 
   getOrders = async () => {
     try {
-      const { data } = await api.get('orders');
+      const { data } = await api.get('my-orders');
 
       data.map((order) => {
         order.updated_at = distanceInWordsToNow(order.updated_at, {
@@ -37,7 +40,11 @@ class ShoppingCart extends Component {
   };
 
   closeCart = () => {
-    this.props.navigation.navigate('FinishOrder');
+    const {
+      navigation: { navigate },
+    } = this.props;
+
+    navigate('FinishOrder');
   };
 
   renderItem = ({ item }) => (
@@ -54,7 +61,9 @@ class ShoppingCart extends Component {
 
   render() {
     const { data } = this.state;
-    const { navigation } = this.props;
+    const {
+      navigation: { popToTop },
+    } = this.props;
     return (
       <View style={styles.container}>
         <Header
@@ -62,7 +71,7 @@ class ShoppingCart extends Component {
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
                 <Icon
-                  onPress={() => navigation.popToTop()}
+                  onPress={() => popToTop()}
                   style={styles.icon}
                   name="chevron-left"
                   size={24}
@@ -87,4 +96,9 @@ class ShoppingCart extends Component {
   }
 }
 
-export default ShoppingCart;
+MyOrders.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+    popToTop: PropTypes.func,
+  }).isRequired,
+};

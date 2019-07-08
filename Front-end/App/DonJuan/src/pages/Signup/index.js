@@ -3,13 +3,14 @@ import {
   View, Image, TextInput, Text, StatusBar,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import backgroundImage from '../../assets/fundo.png';
 import logo from '../../assets/logo.png';
 import PrimaryButton from '../../components/PrimaryButton';
 import api from '../../services/api';
 
-class Signup extends Component {
+export default class Signup extends Component {
   state = {
     inputEmail: '',
     inputPass: '',
@@ -29,16 +30,13 @@ class Signup extends Component {
       });
     } else {
       try {
-        const response = await api.post('/signup', {
+        await api.post('/signup', {
           name: inputName,
           email: inputEmail,
           password: inputPass,
         });
-
-        console.log(response);
         navigate('Signin');
       } catch (err) {
-        console.log(err);
         this.setState({
           error: 'Não foi possível criar usuário!',
         });
@@ -113,4 +111,8 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+Signup.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+};

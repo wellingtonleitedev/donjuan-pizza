@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import {
   View, Text, FlatList, Image, ScrollView, TouchableOpacity,
@@ -5,8 +7,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import orderActions, { OrderTypes } from '../../store/ducks/order';
-
+import PropTypes from 'prop-types';
+import orderActions from '../../store/ducks/order';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
@@ -22,7 +24,10 @@ class SizeSelect extends Component {
   }
 
   getSizes = async () => {
-    const taste = this.props.navigation.getParam('taste');
+    const {
+      navigation: { getParam },
+    } = this.props;
+    const taste = getParam('taste');
     try {
       const { data } = await api.get(`/sizes/${taste}`);
 
@@ -34,7 +39,7 @@ class SizeSelect extends Component {
         data: [...data.sizes],
       });
     } catch (err) {
-      console.log(err);
+      console.tron.log(err);
     }
   };
 
@@ -56,7 +61,7 @@ class SizeSelect extends Component {
       <View style={styles.flatlist}>
         <Image
           style={styles.flatlistImage}
-          source={{ uri: `${URLS.BASE_URL}/files/${item.image}.png` }}
+          source={{ uri: `${URLS.BASE_URL}/files/${item.image}` }}
         />
         <View style={styles.information}>
           <Text style={styles.title}>{item.size}</Text>
@@ -68,7 +73,9 @@ class SizeSelect extends Component {
 
   render() {
     const { data } = this.state;
-    const { navigation } = this.props;
+    const {
+      navigation: { pop },
+    } = this.props;
     return (
       <View style={styles.container}>
         <Header
@@ -76,7 +83,7 @@ class SizeSelect extends Component {
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
                 <Icon
-                  onPress={() => navigation.pop()}
+                  onPress={() => pop()}
                   style={styles.icon}
                   name="chevron-left"
                   size={24}
@@ -101,6 +108,15 @@ class SizeSelect extends Component {
     );
   }
 }
+
+SizeSelect.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+    getParam: PropTypes.func,
+    pop: PropTypes.func,
+  }).isRequired,
+  setOrderRequest: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   order: state,

@@ -4,6 +4,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
+import IconDot from 'react-native-vector-icons/Octicons';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styles from './styles';
 import Header from '../../components/Header';
 import api from '../../services/api';
@@ -25,12 +28,16 @@ class TypeSelect extends Component {
         data: [...types.data],
       });
     } catch (err) {
-      console.log(err);
+      console.tron.log(err);
     }
   };
 
   typeSelected = (index) => {
-    this.props.navigation.navigate('TasteSelect', { type: index });
+    const {
+      navigation: { navigate },
+    } = this.props;
+
+    navigate('TasteSelect', { type: index });
   };
 
   renderItem = ({ item }) => (
@@ -60,7 +67,9 @@ class TypeSelect extends Component {
     const { data } = this.state;
     const {
       navigation: { navigate },
+      orders,
     } = this.props;
+
     return (
       <View style={styles.container}>
         <Header
@@ -74,14 +83,25 @@ class TypeSelect extends Component {
                 color="#fff"
               />
               <Text style={styles.text}>Pizzaria Don Juan</Text>
-              <IconSimple
-                onPress={() => navigate('ShoppingCart')}
-                style={styles.baged}
-                file="SimpleLineIcons"
-                name="handbag"
-                size={15}
-                color="#fff"
-              />
+              <View>
+                {!!orders.data.length && (
+                <IconDot
+                  onPress={() => navigate('ShoppingCart')}
+                  style={styles.baged}
+                  name="primitive-dot"
+                  size={20}
+                  color="#c1d61e"
+                />
+                )}
+                <IconSimple
+                  onPress={() => navigate('ShoppingCart')}
+                  style={styles.bag}
+                  file="SimpleLineIcons"
+                  name="handbag"
+                  size={15}
+                  color="#fff"
+                />
+              </View>
             </View>
 )}
         />
@@ -99,4 +119,17 @@ class TypeSelect extends Component {
   }
 }
 
-export default TypeSelect;
+const mapStateToProps = state => ({
+  orders: state.order,
+});
+
+TypeSelect.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+  orders: PropTypes.shape({
+    data: PropTypes.array,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps)(TypeSelect);

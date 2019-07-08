@@ -13,6 +13,7 @@ export default StyleSheet.create({
   },
   errorText: {
     backgroundColor: colors.danger,
+    borderRadius: metrics.baseRadius,
     color: colors.white,
     fontSize: metrics.baseFont,
     marginBottom: metrics.baseMargin,

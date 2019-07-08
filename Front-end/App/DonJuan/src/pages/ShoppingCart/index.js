@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import orderActions from '../../store/ducks/order';
 import styles from './styles';
 import PrimaryButton from '../../components/PrimaryButton';
@@ -13,10 +14,6 @@ import Header from '../../components/Header';
 import { URLS } from '../../constants';
 
 class ShoppingCart extends Component {
-  componentDidMount() {
-    console.tron.log(this.props);
-  }
-
   closeCart = () => {
     const {
       orderProducts: { data },
@@ -46,38 +43,35 @@ class ShoppingCart extends Component {
     return value.toFixed(2);
   };
 
-  renderItem = ({ item }) => {
-    console.tron.log(item);
-    return (
-      <View key={item.id} style={styles.flatlistContainer}>
-        <View style={styles.flatlist}>
-          <View style={styles.imageView}>
-            <Image
-              style={styles.flatlistImage}
-              source={{ uri: `${URLS.BASE_URL}/files/${item.type_id}-${item.image}` }}
-            />
-          </View>
-          <View style={styles.information}>
-            <Text style={styles.title}>{item.name}</Text>
-            <Text style={styles.description}>{item.size}</Text>
-            <Text style={styles.price}>{item.price}</Text>
-          </View>
-          <View style={styles.iconDelete}>
-            <Icon
-              onPress={() => this.removeItem(item)}
-              name="delete-forever"
-              size={20}
-              color="#e5293e"
-            />
-          </View>
+  renderItem = ({ item }) => (
+    <View key={item.id} style={styles.flatlistContainer}>
+      <View style={styles.flatlist}>
+        <View style={styles.imageView}>
+          <Image
+            style={styles.flatlistImage}
+            source={{ uri: `${URLS.BASE_URL}/files/${item.type_id}-${item.image}` }}
+          />
+        </View>
+        <View style={styles.information}>
+          <Text style={styles.title}>{item.name}</Text>
+          <Text style={styles.description}>{item.size}</Text>
+          <Text style={styles.price}>{item.price}</Text>
+        </View>
+        <View style={styles.iconDelete}>
+          <Icon
+            onPress={() => this.removeItem(item)}
+            name="delete-forever"
+            size={20}
+            color="#e5293e"
+          />
         </View>
       </View>
-    );
-  };
+    </View>
+  );
 
   render() {
     const {
-      navigation,
+      navigation: { pop, navigate },
       orderProducts: { data },
     } = this.props;
     return (
@@ -87,7 +81,7 @@ class ShoppingCart extends Component {
             <View style={styles.controls}>
               <View style={styles.headerTitle}>
                 <Icon
-                  onPress={() => navigation.pop()}
+                  onPress={() => pop()}
                   style={styles.icon}
                   name="chevron-left"
                   size={24}
@@ -113,7 +107,7 @@ class ShoppingCart extends Component {
         ) : (
           <View style={styles.buttonGroup}>
             <IconMaterial
-              onPress={() => this.props.navigation.navigate('TypeSelect')}
+              onPress={() => navigate('TypeSelect')}
               style={styles.iconAdd}
               name="add-shopping-cart"
               size={20}
@@ -131,6 +125,17 @@ class ShoppingCart extends Component {
     );
   }
 }
+
+ShoppingCart.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+    pop: PropTypes.func,
+  }).isRequired,
+  orderProducts: PropTypes.shape({
+    data: PropTypes.array,
+  }).isRequired,
+  removeOrderRequest: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = dispatch => bindActionCreators(orderActions, dispatch);
 

@@ -4,11 +4,11 @@
 const Model = use('Model')
 
 class Taste extends Model {
-  type() {
+  type () {
     return this.belongsTo('App/Models/Type')
   }
 
-  sizes() {
+  sizes () {
     return this.belongsToMany('App/Models/Size')
       .pivotTable('taste_sizes')
       .withPivot(['price'])

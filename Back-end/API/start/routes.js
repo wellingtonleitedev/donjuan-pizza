@@ -15,6 +15,7 @@ Route.group(() => {
   Route.get('sizes/:taste', 'SizeController.index')
   Route.get('cart/:taste/:size', 'ShoppingCartController.store')
   Route.post('order', 'OrderController.store')
+  Route.get('my-orders', 'OrderController.show')
   Route.get('orders', 'OrderController.index')
   Route.post('order-products', 'OrderProductController.store')
 }).middleware(['auth'])

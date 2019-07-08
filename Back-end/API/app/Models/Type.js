@@ -4,7 +4,7 @@
 const Model = use('Model')
 
 class Type extends Model {
-  tastes() {
+  tastes () {
     return this.hasMany('App/Models/Taste')
   }
 }

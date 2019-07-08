@@ -21,6 +21,12 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   baged: {
+    position: 'absolute',
+    right: 0,
+    top: -5,
+    zIndex: 1,
+  },
+  bag: {
     backgroundColor: colors.secondary,
     borderRadius: 18,
     padding: 8,
